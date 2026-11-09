@@ -1,0 +1,23 @@
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif;
+  background-color: #f8f9fa;
+  color: #212529;
+}
+
+.hover-bg:hover {
+  background-color: #e9ecef;
+  color: #0d6efd !important;
+}
+
+.table th {
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #6c757d;
+}
+
+.card {
+  transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
