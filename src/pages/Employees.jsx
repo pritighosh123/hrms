@@ -167,7 +167,9 @@ const Employees = () => {
       name: emp.name || '',
       email: emp.email || '',
       phone: emp.phone || '',
+      role: emp.role || 'User',
       departmentId: emp.departmentId || 1,
+      initialTotalLeaves: emp.totalLeaves || 24,
       reportsToEmployeeId: emp.reportsToEmployeeId ? String(emp.reportsToEmployeeId) : '',
     });
     setShowEditModal(true);
@@ -193,6 +195,9 @@ const Employees = () => {
         email: editFormData.email.trim(),
         phone,
         departmentId: parseInt(editFormData.departmentId, 10),
+        role: editEmployee.role, // Role is not editable here,
+        initialTotalLeaves: editFormData.initialTotalLeaves !== undefined ? parseInt(editFormData.initialTotalLeaves, 10) : undefined,
+
         reportsToEmployeeId: editFormData.reportsToEmployeeId ? parseInt(editFormData.reportsToEmployeeId, 10) : null,
       };
 
@@ -606,7 +611,7 @@ const Employees = () => {
       {/* Edit Employee Modal */}
       {showEditModal && editEmployee && (
         <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-          <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-dialog modal-dialog-centered  modal-dialog-scrollable modal-lg">
             <div className="modal-content border-0 shadow-lg rounded-3">
               <div className="modal-header border-bottom">
                 <div className="d-flex align-items-center gap-2">
@@ -620,7 +625,8 @@ const Employees = () => {
 
               <form onSubmit={handleUpdateEmployee}>
                 <div className="modal-body p-4">
-                  <div className="mb-3">
+                  <div className="row g-3">
+                  <div className="col-12 col-md-6">
                     <label className="form-label small fw-semibold">Full Name</label>
                     <input
                       type="text"
@@ -632,7 +638,7 @@ const Employees = () => {
                     />
                   </div>
 
-                  <div className="mb-3">
+                  <div className="col-12 col-md-6">
                     <label className="form-label small fw-semibold">Email Address</label>
                     <input
                       type="email"
@@ -645,7 +651,7 @@ const Employees = () => {
                     <div className="form-text small">Updating email keeps login username in sync</div>
                   </div>
 
-                  <div className="mb-3">
+                  <div className="col-12 col-md-6">
                     <label className="form-label small fw-semibold">Phone Number</label>
                     <input
                       type="tel"
@@ -661,7 +667,17 @@ const Employees = () => {
                     <div className="form-text small">Enter 7 to 15 digits; common phone formatting is allowed.</div>
                   </div>
 
-                  <div className="mb-3">
+                {editEmployee.role?.toLowerCase() !== 'admin' && (
+                  <div className="col-12 col-md-6">
+                    <label className="form-label small fw-semibold">Role</label>
+                    <select className="form-select" name="role" value={editFormData.role} onChange={handleEditChange} required>
+                      <option value="Manager">Manager</option>
+                      <option value="User">User</option>
+                    </select>
+                  </div>
+                )}
+
+                  <div className="col-12 col-md-6">
                     <label className="form-label small fw-semibold">Department</label>
                     <select
                       className="form-select"
@@ -676,8 +692,23 @@ const Employees = () => {
                       ))}
                     </select>
                   </div>
+                
+                  {editEmployee.role?.toLowerCase() !== 'admin' && (
+                    <div className="col-12 col-md-6">
+                      <label className="form-label small fw-semibold">Initial Leaves</label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        name="initialTotalLeaves"
+                        value={editFormData.initialTotalLeaves}
+                        onChange={handleEditChange}
+                        min="0"
+                        max="50"
+                      />
+                  </div>
+                  )}
 
-                  <div className="mb-3">
+                  <div className="col-12">
                     <label className="form-label small fw-semibold">Report To (Manager)</label>
                     <select
                       className="form-select"
@@ -697,6 +728,7 @@ const Employees = () => {
                         ))}
                     </select>
                     <div className="form-text small">Select supervisor (an employee cannot report to themselves)</div>
+                  </div>
                   </div>
                 </div>
 
