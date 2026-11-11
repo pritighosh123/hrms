@@ -146,7 +146,7 @@ const Login = () => {
         <div className="mt-4 pt-3 border-top text-center text-muted small">
           <div>
             Default Admin: <strong>admin</strong> /{" "}
-            <strong>Password123!</strong>
+            <strong>Password: 123</strong>
           </div>
         </div>
       </div>
